@@ -1,8 +1,18 @@
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -12,13 +22,16 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class Calculadora extends javax.swing.JFrame {
-    static String textoProceso="";
+
+    static String textoProceso = "";
     static int tamañoExpr;
-    static String intento="";
-    static ArrayList<String> operandos=new ArrayList<>();
+    static String intento = "";
+    static ArrayList<String> operandos = new ArrayList<>();
+
     public Calculadora() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,7 +41,6 @@ public class Calculadora extends javax.swing.JFrame {
         tres = new javax.swing.JButton();
         pot = new javax.swing.JButton();
         mult = new javax.swing.JButton();
-        cuatro = new javax.swing.JButton();
         calcular = new javax.swing.JButton();
         cinco = new javax.swing.JButton();
         ocho = new javax.swing.JButton();
@@ -38,14 +50,14 @@ public class Calculadora extends javax.swing.JFrame {
         dos = new javax.swing.JButton();
         punto = new javax.swing.JButton();
         div = new javax.swing.JButton();
-        cero = new javax.swing.JButton();
         seis = new javax.swing.JButton();
         nuevo = new javax.swing.JButton();
         siete = new javax.swing.JButton();
         borrarC = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         proceso = new javax.swing.JTextPane();
-        jLabel1 = new javax.swing.JLabel();
+        cero = new javax.swing.JButton();
+        cuatro = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         intentoExpr = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -64,15 +76,14 @@ public class Calculadora extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setResizable(false);
 
-        jPanel1.setBackground(null);
+        jPanel1.setBackground(null
+        );
         jPanel1.setBorder(null);
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         nueve.setBackground(new java.awt.Color(255, 255, 204));
-        nueve.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        nueve.setForeground(new java.awt.Color(6, 133, 0));
+        nueve.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         nueve.setText("9");
-        nueve.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         nueve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -80,10 +91,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         tres.setBackground(new java.awt.Color(255, 255, 204));
-        tres.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        tres.setForeground(new java.awt.Color(6, 133, 0));
+        tres.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         tres.setText("3");
-        tres.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         tres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -91,10 +100,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         pot.setBackground(new java.awt.Color(255, 255, 204));
-        pot.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        pot.setForeground(new java.awt.Color(6, 133, 0));
+        pot.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         pot.setText("^");
-        pot.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         pot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -102,43 +109,31 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         mult.setBackground(new java.awt.Color(255, 255, 204));
-        mult.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        mult.setForeground(new java.awt.Color(6, 133, 0));
+        mult.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         mult.setText("*");
-        mult.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         mult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
             }
         });
 
-        cuatro.setBackground(new java.awt.Color(255, 255, 204));
-        cuatro.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        cuatro.setForeground(new java.awt.Color(6, 133, 0));
-        cuatro.setText("4");
-        cuatro.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
-        cuatro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertarCaracter(evt);
-            }
-        });
-
         calcular.setBackground(new java.awt.Color(255, 204, 204));
-        calcular.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        calcular.setForeground(new java.awt.Color(6, 133, 0));
+        calcular.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         calcular.setText("=");
-        calcular.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         calcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Calcular(evt);
             }
         });
+        calcular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                calcularKeyPressed(evt);
+            }
+        });
 
         cinco.setBackground(new java.awt.Color(255, 255, 204));
-        cinco.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        cinco.setForeground(new java.awt.Color(6, 133, 0));
+        cinco.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         cinco.setText("5");
-        cinco.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         cinco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -146,10 +141,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         ocho.setBackground(new java.awt.Color(255, 255, 204));
-        ocho.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        ocho.setForeground(new java.awt.Color(6, 133, 0));
+        ocho.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         ocho.setText("8");
-        ocho.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         ocho.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -157,10 +150,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         uno.setBackground(new java.awt.Color(255, 255, 204));
-        uno.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        uno.setForeground(new java.awt.Color(6, 133, 0));
+        uno.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         uno.setText("1");
-        uno.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         uno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -168,10 +159,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         resta.setBackground(new java.awt.Color(255, 255, 204));
-        resta.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        resta.setForeground(new java.awt.Color(6, 133, 0));
+        resta.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         resta.setText("-");
-        resta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         resta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -179,10 +168,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         suma.setBackground(new java.awt.Color(255, 255, 204));
-        suma.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        suma.setForeground(new java.awt.Color(6, 133, 0));
+        suma.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         suma.setText("+");
-        suma.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         suma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -190,10 +177,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         dos.setBackground(new java.awt.Color(255, 255, 204));
-        dos.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        dos.setForeground(new java.awt.Color(6, 133, 0));
+        dos.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         dos.setText("2");
-        dos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         dos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -201,10 +186,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         punto.setBackground(new java.awt.Color(255, 255, 204));
-        punto.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        punto.setForeground(new java.awt.Color(6, 133, 0));
+        punto.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         punto.setText(".");
-        punto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         punto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -212,32 +195,17 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         div.setBackground(new java.awt.Color(255, 255, 204));
-        div.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        div.setForeground(new java.awt.Color(6, 133, 0));
+        div.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         div.setText("/");
-        div.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         div.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
             }
         });
 
-        cero.setBackground(new java.awt.Color(255, 255, 204));
-        cero.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        cero.setForeground(new java.awt.Color(6, 133, 0));
-        cero.setText("0");
-        cero.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
-        cero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertarCaracter(evt);
-            }
-        });
-
         seis.setBackground(new java.awt.Color(255, 255, 204));
-        seis.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        seis.setForeground(new java.awt.Color(6, 133, 0));
+        seis.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         seis.setText("6");
-        seis.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         seis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -245,10 +213,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         nuevo.setBackground(new java.awt.Color(255, 255, 204));
-        nuevo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        nuevo.setForeground(new java.awt.Color(6, 133, 0));
+        nuevo.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         nuevo.setText("De nuevo");
-        nuevo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borrarTodo(evt);
@@ -256,10 +222,8 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         siete.setBackground(new java.awt.Color(255, 255, 204));
-        siete.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        siete.setForeground(new java.awt.Color(6, 133, 0));
+        siete.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         siete.setText("7");
-        siete.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         siete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insertarCaracter(evt);
@@ -267,13 +231,35 @@ public class Calculadora extends javax.swing.JFrame {
         });
 
         borrarC.setBackground(new java.awt.Color(255, 255, 204));
-        borrarC.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        borrarC.setForeground(new java.awt.Color(6, 133, 0));
+        borrarC.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         borrarC.setText("<-");
-        borrarC.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
         borrarC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borrarCaracter(evt);
+            }
+        });
+
+        proceso.setEditable(false);
+        proceso.setBackground(new java.awt.Color(255, 255, 255));
+        proceso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        proceso.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jScrollPane1.setViewportView(proceso);
+
+        cero.setBackground(new java.awt.Color(255, 255, 204));
+        cero.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        cero.setText("0");
+        cero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarCaracter(evt);
+            }
+        });
+
+        cuatro.setBackground(new java.awt.Color(255, 255, 204));
+        cuatro.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        cuatro.setText("4");
+        cuatro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarCaracter(evt);
             }
         });
 
@@ -282,106 +268,110 @@ public class Calculadora extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(punto, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(siete, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ocho, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nueve, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(nuevo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(uno, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(dos, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(cuatro, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cinco, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(uno, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(seis, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tres, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(borrarC, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(div, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(resta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(suma, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(tres, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(borrarC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(suma, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                            .addComponent(resta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cuatro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cinco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(seis, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mult, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(siete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ocho, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nueve, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(div, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(56, 56, 56)
+                                        .addComponent(punto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cero, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(mult, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(div, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pot, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(borrarC, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(suma, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(borrarC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(suma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(uno, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dos, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tres, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(resta, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cinco, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cuatro, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(seis, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(uno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tres, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(resta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ocho, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(siete, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nueve, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cuatro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cinco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(seis, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mult, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(punto, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cero, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ocho, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(siete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nueve, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(div, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(punto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pot, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
 
-        proceso.setEditable(false);
-        proceso.setBackground(new java.awt.Color(255, 255, 255));
-        proceso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
-        proceso.setFont(new java.awt.Font("Maiandra GD", 1, 24)); // NOI18N
-        proceso.setForeground(new java.awt.Color(0, 0, 255));
-        jScrollPane1.setViewportView(proceso);
-
-        jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 51, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Proceso");
-
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 51, 0));
         jLabel2.setText("Ingrese la expresion:");
 
-        intentoExpr.setBackground(null);
-        intentoExpr.setFont(new java.awt.Font("Bahnschrift", 1, 18)); // NOI18N
-        intentoExpr.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        intentoExpr.setFont(new java.awt.Font("Bahnschrift", 0, 18)); // NOI18N
+        intentoExpr.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        intentoExpr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                intentoExprActionPerformed(evt);
+            }
+        });
 
         jMenuBar1.setBackground(new Color(220,240,220));
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 0)));
@@ -458,141 +448,149 @@ public class Calculadora extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(intentoExpr))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(intentoExpr))))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(intentoExpr, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addComponent(intentoExpr, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(50, 50, 50))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertarCaracter(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarCaracter
-        if (evt.getSource()==uno) {
-            intento+="1";
+        if (evt.getSource() == uno) {
+            intento += "1";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==dos) {
-            intento+="2";    
+        if (evt.getSource() == dos) {
+            intento += "2";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==tres) {
-            intento+="3";
+        if (evt.getSource() == tres) {
+            intento += "3";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==cuatro) {
-            intento+="4";
+        if (evt.getSource() == cuatro) {
+            intento += "4";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==cinco) {
-            intento+="5";
+        if (evt.getSource() == cinco) {
+            intento += "5";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==seis) {
-            intento+="6";
+        if (evt.getSource() == seis) {
+            intento += "6";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==siete) {
-            intento+="7";
+        if (evt.getSource() == siete) {
+            intento += "7";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==ocho) {
-            intento+="8";
+        if (evt.getSource() == ocho) {
+            intento += "8";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==nueve) {
-            intento+="9";
+        if (evt.getSource() == nueve) {
+            intento += "9";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==cero) {
-            intento+="0";
+        if (evt.getSource() == cero) {
+            intento += "0";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==suma) {
-            intento+="+";
+        if (evt.getSource() == suma) {
+            intento += "+";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==resta) {
-            intento+="-";
+        if (evt.getSource() == resta) {
+            intento += "-";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==mult) {
-            intento+="*";
+        if (evt.getSource() == mult) {
+            intento += "*";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==div) {
-            intento+="/";
+        if (evt.getSource() == div) {
+            intento += "/";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==pot) {
-            intento+="^";
+        if (evt.getSource() == pot) {
+            intento += "^";
             intentoExpr.setText(intento);
         }
-        if (evt.getSource()==punto) {
-            intento+=".";
+        if (evt.getSource() == punto) {
+            intento += ".";
             intentoExpr.setText(intento);
         }
-        
+
     }//GEN-LAST:event_insertarCaracter
 
     private void Calcular(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Calcular
-        if (evt.getSource()==calcular) {
-            double resultado;
-            
-            String intentoAl=intentoExpr.getText();
-            if (validarExpresion(intentoAl) && !intento.isEmpty()) {
-                resultado=OperarExpresion(operandos);
-                intentoExpr.setText(Double.toString(resultado));
-                operandos.clear();
-                intento=Double.toString(resultado);
-            }else{
-                proceso.setText("Error: No hay expresion");
-            }
-            System.out.println(operandos.toString());
-                    StyledDocument doc = proceso.getStyledDocument();
-         
-            // Crear un estilo para las cadenas " -"
-            Style style = doc.addStyle("miEstilo", null);
-            StyleConstants.setForeground(style, Color.RED);
-            // Obtener el texto del JTextPane
-            String texto = proceso.getText();
-        
-            int index = 0;
+        if (evt.getSource() == calcular) {
 
-            for (int i = 0; i < textoProceso.length(); i++) {  
-            
-            char [] abc={'a','b','c','d','f','g','h','i','j','l','m','n',
-                        'ñ','o','p','q','r','s','t','u','v','w','x','y',
-                        'z',};
-            ArrayList<Character> bc=new ArrayList<>();
-          
-            char c = texto.charAt(i);
-            if (c == '*' || c == '/' || c == '-' || c == '+'||c == '^') {
-            doc.setCharacterAttributes(i, 1, style, false);
+            double resultado;                           // Valor donde se almacenara el resultado
+            String intentoAl = intentoExpr.getText();     //Se extrae el texto del JTextField intentoExpr (el campo donde se introduce la expresion)
+
+            /*PRIMERO: Se valida la expresion mediante validarExpr()
+            y se verifica que el String "intento" no este VACIO
+            ya que si esta vacio quiere decir que aun no se a
+            presionado ni un boton de numeros entonces no hay
+            expresion alguna*/
+            if (validarExpr(intentoAl) && !intento.isEmpty()) {
+
+                resultado = OperarExpresion(operandos);               //Devuelve un double y se almacena en "resultado"
+                intentoExpr.setText(Double.toString(resultado));    //en el JTextArea "intentoExpr" se seteara el "resultado" parseado a String
+                operandos.clear();                                  //Se vacia el ArrayList<String> "operandos"
+                intento = Double.toString(resultado);                 //el valor double "resultado" se parsea a String y se almacena en el String "intento"
+
+            } else {
+                proceso.setText("Error: No hay expresion");         // Si el metodo devule false o el String esta vacio entonces el JTextPane proceso seteara el siguient texto
+            }
+
+            System.out.println(operandos.toString());               //La consola imprimira el ArrayList<String> inicial "operandos"
+
+            StyledDocument doc = proceso.getStyledDocument();       //Se extrae el objeto StyledDocument con ese metodo y se almacena en "doc" variable del mismo tipo
+
+            Style estilo = doc.addStyle("miEstilo", null);           // Crear un estilo para las cadenas " -" con la clase Style creando una variable estilo                                                         
+            StyleConstants.setForeground(estilo, Color.RED);
+
+            String texto = proceso.getText();                       // Obtener el texto del JTextPane
+            char[] abc = {'a', 'b', 'c', 'e', 'd', 'f', 'g', 'h', 'i', 'j', 'l', 'm', 'n',
+                'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'M', 'N',
+                'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+                'Z', ':'};
+            ArrayList<Character> car = new ArrayList<>();
+            for (char a : abc) {
+                car.add(a);
+            }
+            for (int i = 0; i < texto.length(); i++) {
+                char c = texto.charAt(i);
+                if (c == '*' || c == '/' || c == '-' || c == '+' || c == '^') {
+                    doc.setCharacterAttributes(i, 1, estilo, false);
                 }
-              
+
+                if (car.contains(c)) {
+                    doc.setCharacterAttributes(i, 1, estilo, false);
+                }
+
             }
         }
     }//GEN-LAST:event_Calcular
@@ -601,122 +599,156 @@ public class Calculadora extends javax.swing.JFrame {
 
         intentoExpr.setText("");
         proceso.setText("");
-        intento="";
-        textoProceso="";
+        intento = "";
+        textoProceso = "";
         operandos.clear();
     }//GEN-LAST:event_borrarTodo
 
     private void borrarCaracter(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarCaracter
-        
+
         String nuevaExpr;
-        nuevaExpr=intentoExpr.getText();
+        nuevaExpr = intentoExpr.getText();
         if (!nuevaExpr.isEmpty()) {
-        nuevaExpr=nuevaExpr.substring(0,nuevaExpr.length()-1);    
+            nuevaExpr = nuevaExpr.substring(0, nuevaExpr.length() - 1);
         }
         intentoExpr.setText(nuevaExpr);
     }//GEN-LAST:event_borrarCaracter
 
     private void presionarItem(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presionarItem
-        JButton [] botones={uno,dos,tres,cuatro,cinco,seis,siete,ocho,nueve,cero,suma,resta,mult,div,pot,calcular,borrarC,nuevo,punto};
-        JMenuItem [] items={blanco,negro,verde,exportar,ap,dev};
-        JMenu [] menus={jMenu1,jMenu2,jMenu3};
-        JLabel[] labels={jLabel1,jLabel2};
-        if (evt.getSource()==blanco) {
+
+        JButton[] botones = {uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, cero, suma, resta, mult, div, pot, calcular, borrarC, nuevo, punto};
+        JMenuItem[] items = {blanco, negro, verde, exportar, ap, dev};
+        JMenu[] menus = {jMenu1, jMenu2, jMenu3};
+        JLabel[] labels = { jLabel2};
+
+        //Para el fondo blanco 
+        if (evt.getSource() == blanco) {
+
             for (int i = 0; i < botones.length; i++) {
                 botones[i].setBackground(Color.black);
                 botones[i].setForeground(Color.white);
-                if (i<items.length){
-                items[i].setBackground(Color.white);    
-                items[i].setForeground(Color.black);    
+                if (i < items.length) {
+                    items[i].setBackground(Color.white);
+                    items[i].setForeground(Color.black);
                 }
-                if (i<menus.length){
-                menus[i].setBackground(Color.white);    
-                menus[i].setForeground(Color.black);
+                if (i < menus.length) {
+                    menus[i].setBackground(Color.white);
+                    menus[i].setForeground(Color.black);
                 }
-                if (i<labels.length) {
-                labels[i].setForeground(Color.black);        
+                if (i < labels.length) {
+                    labels[i].setForeground(Color.black);
                 }
             }
             jMenuBar1.setBackground(Color.white);
             jMenuBar1.setBorder(BorderFactory.createLineBorder(Color.black));
             this.getContentPane().setBackground(Color.white);
-            jPanel1.setBackground(new Color(220,220,220));
-            proceso.setBackground(new Color(220,220,220));
+            jPanel1.setBackground(new Color(220, 220, 220));
+            proceso.setBackground(new Color(220, 220, 220));
             intentoExpr.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-            
+
         }
-        if (evt.getSource()==negro) {
+
+        //Para el fondo negro
+        if (evt.getSource() == negro) {
+            intentoExpr.setForeground(Color.black);
             for (int i = 0; i < botones.length; i++) {
                 botones[i].setBackground(Color.white);
                 botones[i].setForeground(Color.black);
-                if (i<items.length){
-                items[i].setBackground(Color.black);    
-                items[i].setForeground(Color.white);
+                if (i < items.length) {
+                    items[i].setBackground(Color.black);
+                    items[i].setForeground(Color.white);
                 }
-                if (i<menus.length){
-                menus[i].setBackground(Color.black);    
-                menus[i].setForeground(Color.white);
+                if (i < menus.length) {
+                    menus[i].setBackground(Color.black);
+                    menus[i].setForeground(Color.white);
                 }
-                if (i<labels.length) {
-                labels[i].setForeground(Color.white);        
+                if (i < labels.length) {
+                    labels[i].setForeground(Color.white);
                 }
             }
             jMenuBar1.setBackground(Color.BLACK);
             jMenuBar1.setBorder(BorderFactory.createLineBorder(Color.white));
             this.getContentPane().setBackground(Color.black);
-            
+
             jPanel1.setBackground(null);
             proceso.setBackground(Color.white);
-            intentoExpr.setForeground(Color.white);
             intentoExpr.setBorder(BorderFactory.createLineBorder(Color.white));
-            intentoExpr.setCaretColor(Color.white);
+            intentoExpr.setCaretColor(Color.black);
         }
-        if (evt.getSource()==verde) {
-               for (int i = 0; i < botones.length; i++) {
-                botones[i].setBackground(new Color(255,255,204));
-                botones[i].setForeground(new Color(6,133,0));
-                if (i<items.length){
-                items[i].setBackground(new Color(220,240,220));    
-                items[i].setForeground(new Color(0,102,0));
+        if (evt.getSource() == verde) {
+            for (int i = 0; i < botones.length; i++) {
+                botones[i].setBackground(new Color(255, 255, 204));
+                botones[i].setForeground(new Color(6, 133, 0));
+                if (i < items.length) {
+                    items[i].setBackground(new Color(220, 240, 220));
+                    items[i].setForeground(new Color(0, 102, 0));
                 }
-                if (i<menus.length){
-                menus[i].setBackground(new Color(220,240,220));    
-                menus[i].setForeground(new Color(0,102,0));
+                if (i < menus.length) {
+                    menus[i].setBackground(new Color(220, 240, 220));
+                    menus[i].setForeground(new Color(0, 102, 0));
                 }
-                if (i<labels.length) {
-                labels[i].setForeground(new Color(0,51,0));        
+                if (i < labels.length) {
+                    labels[i].setForeground(new Color(0, 51, 0));
                 }
             }
-            jMenuBar1.setBackground(new Color(220,240,220));
-            jMenuBar1.setBorder(BorderFactory.createLineBorder(new Color(0,102,0)));
-            this.getContentPane().setBackground(new Color(220,240,220));
+            jMenuBar1.setBackground(new Color(220, 240, 220));
+            jMenuBar1.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 0)));
+            this.getContentPane().setBackground(new Color(220, 240, 220));
             jPanel1.setBackground(null);
             proceso.setBackground(Color.white);
             intentoExpr.setForeground(null);
-            intentoExpr.setBorder(BorderFactory.createLineBorder(new Color(0,102,0)));
-            intentoExpr.setCaretColor(new Color(0,102,0));
-            calcular.setBackground(new Color(250,200,200));
-            
+            intentoExpr.setBorder(BorderFactory.createLineBorder(new Color(0, 102, 0)));
+            intentoExpr.setCaretColor(new Color(0, 102, 0));
+            calcular.setBackground(new Color(250, 200, 200));
+
         }
-        if (evt.getSource()==dev) {
+        if (evt.getSource() == dev) {
             JOptionPane.showMessageDialog(null, "Hecho por Diego Quezada\nContactame en diegodavid0404@hotmail.com");
         }
-        if (evt.getSource()==ap) {
+        if (evt.getSource() == ap) {
             JOptionPane.showMessageDialog(null, "Hecho en netbeans 8.2\nen lenguaje Java");
         }
+        if (evt.getSource()==exportar) {
+                JFileChooser jFileChooser = new JFileChooser();
+            if (jFileChooser.showDialog(null, "Guardar archivo") == 0) {
+                File file = jFileChooser.getSelectedFile();
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    String contenido = proceso.getText();
+                    try {
+                        fileOutputStream.write(contenido.getBytes());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Calculadora.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JOptionPane.showMessageDialog(null, "Archivo guardado");
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }//GEN-LAST:event_presionarItem
+
+    private void calcularKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calcularKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+        }
+    }//GEN-LAST:event_calcularKeyPressed
+
+    private void intentoExprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intentoExprActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_intentoExprActionPerformed
 
     public static void main(String args[]) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {  
-                
-                
-                Calculadora c=new Calculadora();
+            public void run() {
+
+                Calculadora c = new Calculadora();
                 c.setVisible(true);
                 c.setLocationRelativeTo(null);
-                c.getContentPane().setBackground(new Color(220,240,220));
-                
+                c.getContentPane().setBackground(new Color(220, 240, 220));
+
             }
         });
     }
@@ -734,7 +766,6 @@ public class Calculadora extends javax.swing.JFrame {
     private javax.swing.JButton dos;
     private javax.swing.JMenuItem exportar;
     private javax.swing.JTextField intentoExpr;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -759,66 +790,77 @@ public class Calculadora extends javax.swing.JFrame {
     private javax.swing.JMenuItem verde;
     // End of variables declaration//GEN-END:variables
 
-    private boolean validarExpresion(String intentoAl) {
-        boolean hayOperador=true;
-        String num="";
-        for (int i = 0; i <intentoAl.length(); i++) {
+    private boolean validarExpr(String intentoAl) {
+        boolean hayOperador = true;
+        String num = "";
 
-            if (intentoAl.charAt(i)=='+' || intentoAl.charAt(i)=='*' ||
-                intentoAl.charAt(i)=='/' || intentoAl.charAt(i)=='^'||
-               (intentoAl.charAt(i)=='-' && !hayOperador)) {
-                
-            if(!num.equals("")) operandos.add(num);
-            operandos.add(String.valueOf(intentoAl.charAt(i)));
-            hayOperador=true;
-            num="";
-            
-                
-            }else if(intentoAl.charAt(i)=='-' && hayOperador==true ||
-                    (intentoAl.charAt(i)=='-'&&operandos.isEmpty())){              
-            num+=""+intentoAl.charAt(i);
-            hayOperador=false;
-                
-            }else if (intentoAl.charAt(i)=='.' && num!="") {
-                
-            num+=""+intentoAl.charAt(i);
-            hayOperador=false;
-                
-            }else if (esDigito(intentoAl.charAt(i))) {
-            num+=""+intentoAl.charAt(i);
-            if (i==intento.length()-1) operandos.add(num);
-            hayOperador=false;
-            
-            }else if (hayOperador && esDecimal(num)) {
-                
-            }else{
-            System.out.println("caracter invalido ctm");
-            return false;
+        for (int i = 0; i < intentoAl.length(); i++) {
+
+            if (intentoAl.charAt(i) == '+' || intentoAl.charAt(i) == '*'
+                    || intentoAl.charAt(i) == '/' || intentoAl.charAt(i) == '^'
+                    || (intentoAl.charAt(i) == '-' && !hayOperador)) {
+
+                if (!num.equals("")) {
+                    operandos.add(num);
+                }
+                operandos.add(String.valueOf(intentoAl.charAt(i)));
+                hayOperador = true;
+                num = "";
+
+            } else if (intentoAl.charAt(i) == '-' && hayOperador == true
+                    || (intentoAl.charAt(i) == '-' && operandos.isEmpty())) {
+                num += "" + intentoAl.charAt(i);
+                hayOperador = false;
+
+            } else if (intentoAl.charAt(i) == '.' && num != "") {
+
+                num += "" + intentoAl.charAt(i);
+                hayOperador = false;
+
+            } else if (esDigito(intentoAl.charAt(i))) {
+                num += "" + intentoAl.charAt(i);
+                if (i == intento.length() - 1) {
+                    operandos.add(num);
+                }
+                hayOperador = false;
+
+            } else if (hayOperador && esDecimal(num)) {
+
+            } else {
+                System.out.println("caracter invalido ctm");
+                return false;
             }
         }
-        for (int i=1;i<operandos.size()-1;i++) {
-            if (operandos.get(i).equals("/") || operandos.get(i).equals("*") ||
-                operandos.get(i).equals("-") || operandos.get(i).equals("+") ||
-                operandos.get(i).equals("^")) {
+        for (int i = 1; i < operandos.size() - 1; i++) {
+            if (operandos.get(i).equals("/") || operandos.get(i).equals("*")
+                    || operandos.get(i).equals("-") || operandos.get(i).equals("+")
+                    || operandos.get(i).equals("^")) {
                 if (esDecimal(operandos.get(i - 1)) && esDecimal(operandos.get(i + 1))) {
-                    
-                }else return false;
+
+                } else {
+                    return false;
+                }
             }
         }
         System.out.println(operandos.toString());
-       return true;
+        return true;
     }
 
     private double OperarExpresion(ArrayList<String> expresion) {
+
         double n1, n2;
         double res = 0;
+
         System.out.println(operandos.toString());
         mostrarOperacion(operandos);
-        for (tamañoExpr = expresion.size()-1; tamañoExpr >0; tamañoExpr--){
+
+        //Primero se hacen las potencias se recorre el ArrayList con un for esperando encontrar un caracter '^'
+        for (tamañoExpr = expresion.size() - 1; tamañoExpr > 0; tamañoExpr--) {
+
             if (expresion.get(tamañoExpr).equals("^")) {
                 n1 = Double.parseDouble(expresion.get(tamañoExpr - 1));
                 n2 = Double.parseDouble(expresion.get(tamañoExpr + 1));
-                res = Math.pow(n1,n2);
+                res = Math.pow(n1, n2);
                 expresion.set(tamañoExpr, Double.toString(res));
                 expresion.remove(tamañoExpr - 1);
                 expresion.remove(tamañoExpr);
@@ -827,7 +869,9 @@ public class Calculadora extends javax.swing.JFrame {
                 OperarExpresion(expresion);
             }
         }
-        for (int i = 0; i <expresion.size()-1; i++){
+
+        //Luego se hacen las potencias se recorre el ArrayList con un for esperando encontrar un caracter '^'
+        for (int i = 0; i < expresion.size() - 1; i++) {
             if (expresion.get(i).equals("/")) {
                 n1 = Double.parseDouble(expresion.get(i - 1));
                 n2 = Double.parseDouble(expresion.get(i + 1));
@@ -840,7 +884,8 @@ public class Calculadora extends javax.swing.JFrame {
                 OperarExpresion(expresion);
             }
         }
-        for (int i = 0; i <expresion.size()-1; i++){
+
+        for (int i = 0; i < expresion.size() - 1; i++) {
             if (expresion.get(i).equals("*")) {
                 n1 = Double.parseDouble(expresion.get(i - 1));
                 n2 = Double.parseDouble(expresion.get(i + 1));
@@ -851,7 +896,8 @@ public class Calculadora extends javax.swing.JFrame {
                 OperarExpresion(expresion);
             }
         }
-        for (int i = 0; i <expresion.size()-1; i++){
+
+        for (int i = 0; i < expresion.size() - 1; i++) {
             if (expresion.get(i).equals("-")) {
                 n1 = Double.parseDouble(expresion.get(i - 1));
                 n2 = Double.parseDouble(expresion.get(i + 1));
@@ -862,7 +908,8 @@ public class Calculadora extends javax.swing.JFrame {
                 OperarExpresion(expresion);
             }
         }
-        for (int i = 0; i <expresion.size()-1; i++){
+
+        for (int i = 0; i < expresion.size() - 1; i++) {
             if (expresion.get(i).equals("+")) {
                 n1 = Double.parseDouble(expresion.get(i - 1));
                 n2 = Double.parseDouble(expresion.get(i + 1));
@@ -875,32 +922,59 @@ public class Calculadora extends javax.swing.JFrame {
         }
         return Double.parseDouble(expresion.get(0));
     }
-    private boolean esDigito(char intento){
-       int resultado;
-       
-        try{
-        Character.getNumericValue(intento);
-        }catch(Exception e){
-        System.err.println(e.getMessage());
-        return false;
-        } 
-        return true;
-    }
-    private boolean esDecimal(String intento){
-        try{
-        Double.parseDouble(intento);
-        }catch(Exception e){
-        System.err.println(e.getMessage());
-        return false;
+
+    private boolean esDigito(char intento) {
+        int resultado;
+
+        try {
+            Character.getNumericValue(intento);
+        } catch (Exception e) {
+            proceso.setText("Error:" + e.getMessage());
+            return false;
         }
         return true;
     }
-    public void mostrarOperacion(ArrayList<String> op){
-        
-        for (int i=0; i<op.size();i++) {
-            textoProceso+=op.get(i);
+
+    private boolean esDecimal(String intento) {
+        try {
+            Double.parseDouble(intento);
+        } catch (Exception e) {
+            proceso.setText("Error:" + e.getMessage());
+            return false;
         }
-        textoProceso+="\n";
+        return true;
+    }
+
+    public void mostrarOperacion(ArrayList<String> op) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        DecimalFormatSymbols decimalFormatSymbols=new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+        for (int i = 0; i < op.size(); i++) {
+            if (op.get(i).contains("*")
+                    || op.get(i).contains("/")
+                    || op.get(i).contains("+")
+                    || op.get(i).contains("-")
+                    || op.get(i).contains("^")) {
+                System.out.println("Se encontro algo");
+                textoProceso += op.get(i);
+            } else if (EsEntero(op.get(i))) {
+                textoProceso += op.get(i);
+            } else {
+                textoProceso += decimalFormat.format(Double.parseDouble(op.get(i)));
+
+            }
+        }
+        textoProceso += "\n";
         proceso.setText(textoProceso);
+    }
+
+    private boolean EsEntero(String numero) {
+        try {
+            Integer.parseInt(numero);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
